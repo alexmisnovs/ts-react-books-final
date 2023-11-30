@@ -1,22 +1,28 @@
+import { ReactNode } from "react";
 import { createPortal } from "react-dom";
 
 // import CartItems from "./CartItems.tsx";
 
 type ModalProps = {
+  children?: ReactNode;
   onClose: () => void;
 };
 
-export default function Modal({ onClose }: ModalProps) {
+/**
+ * So it seems I need a very flexible modal, that shows different contents depending if it was called
+ * in different places. What is a bit weird but ok, I will pass children to output different components
+ *  So now I can pass what ever into the modal
+ */
+
+export default function Modal({ onClose, children }: ModalProps) {
   return createPortal(
     <main className="modal">
-      <div className="cart-backdrop" />
-      <dialog id="cart-modal" open>
-        <h2>Book a session section</h2>
-        {/* <CartItems /> */}
-
-        <h2>Upcoming sessions here</h2>
-        <p id="cart-actions">
-          <button onClick={onClose}>Close</button>
+      <dialog id="modal" open>
+        {children}
+        <p>
+          <button className="button" onClick={onClose}>
+            Close
+          </button>
         </p>
       </dialog>
     </main>,
